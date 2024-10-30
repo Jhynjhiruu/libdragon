@@ -102,7 +102,7 @@ test -f "binutils-$BINUTILS_V.tar.gz" || download "https://ftp.gnu.org/gnu/binut
 test -d "binutils-$BINUTILS_V"        || tar -xzf "binutils-$BINUTILS_V.tar.gz"
 
 # test -f "gcc-$GCC_V.tar.gz"           || download "https://ftp.gnu.org/gnu/gcc/gcc-$GCC_V/gcc-$GCC_V.tar.gz"
-test -f gcc-$GCC_V.tar.gz             || download "https://github.com/rust-lang/gcc/archive/refs/tags/master-b4002fd1dc353de13e0f77f536199680f718ba9d.tar.gz" "gcc-$GCC_V.tar.gz"
+test -f "gcc-$GCC_V.tar.gz"           || download "https://github.com/rust-lang/gcc/archive/refs/tags/master-b4002fd1dc353de13e0f77f536199680f718ba9d.tar.gz" "gcc-$GCC_V.tar.gz"
 test -d "gcc-$GCC_V"                  || tar -xzf "gcc-$GCC_V.tar.gz"
 
 test -f "newlib-$NEWLIB_V.tar.gz"     || download "https://sourceware.org/pub/newlib/newlib-$NEWLIB_V.tar.gz" "newlib-$NEWLIB_V.tar.gz"
