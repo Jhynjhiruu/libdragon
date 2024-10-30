@@ -214,7 +214,8 @@ pushd gcc_compile_target
     --with-newlib \
     --disable-win32-registry \
     --disable-nls \
-    --disable-werror 
+    --disable-werror \
+    --enable-host-shared
 make all-gcc -j "$JOBS"
 make install-gcc || sudo make install-gcc || su -c "make install-gcc"
 make all-target-libgcc -j "$JOBS"
@@ -282,7 +283,8 @@ else
         --disable-libssp \
         --disable-shared \
         --disable-win32-registry \
-        --disable-nls
+        --disable-nls \
+        --enable-host-shared
     make all-target-libgcc -j "$JOBS"
     make install-target-libgcc || sudo make install-target-libgcc || su -c "make install-target-libgcc"
     popd
