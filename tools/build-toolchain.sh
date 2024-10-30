@@ -205,7 +205,7 @@ pushd gcc_compile_target
     --target="$N64_TARGET" \
     --with-arch=vr4300 \
     --with-tune=vr4300 \
-    --enable-languages=c,c++,rust,jit \
+    --enable-languages=c,c++,jit \
     --without-headers \
     --disable-libssp \
     --enable-multilib \
@@ -276,7 +276,7 @@ else
         --disable-werror \
         --with-arch=vr4300 \
         --with-tune=vr4300 \
-        --enable-languages=c,c++,rust,jit \
+        --enable-languages=c,c++,jit \
         --with-newlib \
         --enable-multilib \
         --with-gcc \
