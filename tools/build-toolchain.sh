@@ -51,8 +51,8 @@ command_exists () {
 
 # Download the file URL using wget or curl (depending on which is installed)
 download () {
-    if   command_exists wget ; then wget -c  "$1"
-    elif command_exists curl ; then curl -LO "$1"
+    if   command_exists wget ; then wget -c  "$1" -O "$2"
+    elif command_exists curl ; then curl -L "$1" -o "$2"
     else
         echo "Install wget or curl to download toolchain sources" 1>&2
         return 1
@@ -98,17 +98,18 @@ mkdir -p "$BUILD_PATH"
 cd "$BUILD_PATH"
 
 # Dependency downloads and unpack
-test -f "binutils-$BINUTILS_V.tar.gz" || download "https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_V.tar.gz"
+test -f "binutils-$BINUTILS_V.tar.gz" || download "https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_V.tar.gz" "binutils-$BINUTILS_V.tar.gz"
 test -d "binutils-$BINUTILS_V"        || tar -xzf "binutils-$BINUTILS_V.tar.gz"
 
-test -f "gcc-$GCC_V.tar.gz"           || download "https://ftp.gnu.org/gnu/gcc/gcc-$GCC_V/gcc-$GCC_V.tar.gz"
+# test -f "gcc-$GCC_V.tar.gz"           || download "https://ftp.gnu.org/gnu/gcc/gcc-$GCC_V/gcc-$GCC_V.tar.gz"
+test -f gcc-$GCC_V.tar.gz             || download "https://github.com/rust-lang/gcc/archive/refs/tags/master-b4002fd1dc353de13e0f77f536199680f718ba9d.tar.gz" "gcc-$GCC_V.tar.gz"
 test -d "gcc-$GCC_V"                  || tar -xzf "gcc-$GCC_V.tar.gz"
 
-test -f "newlib-$NEWLIB_V.tar.gz"     || download "https://sourceware.org/pub/newlib/newlib-$NEWLIB_V.tar.gz"
+test -f "newlib-$NEWLIB_V.tar.gz"     || download "https://sourceware.org/pub/newlib/newlib-$NEWLIB_V.tar.gz" "newlib-$NEWLIB_V.tar.gz"
 test -d "newlib-$NEWLIB_V"            || tar -xzf "newlib-$NEWLIB_V.tar.gz"
 
 if [ "$GMP_V" != "" ]; then
-    test -f "gmp-$GMP_V.tar.bz2"           || download "https://ftp.gnu.org/gnu/gmp/gmp-$GMP_V.tar.bz2"
+    test -f "gmp-$GMP_V.tar.bz2"           || download "https://ftp.gnu.org/gnu/gmp/gmp-$GMP_V.tar.bz2" "gmp-$GMP_V.tar.bz2"
     test -d "gmp-$GMP_V"                  || tar -xf "gmp-$GMP_V.tar.bz2" # note: no .gz download file currently available
     pushd "gcc-$GCC_V"
     ln -sf ../"gmp-$GMP_V" "gmp"
@@ -116,7 +117,7 @@ if [ "$GMP_V" != "" ]; then
 fi
 
 if [ "$MPC_V" != "" ]; then
-    test -f "mpc-$MPC_V.tar.gz"           || download "https://ftp.gnu.org/gnu/mpc/mpc-$MPC_V.tar.gz"
+    test -f "mpc-$MPC_V.tar.gz"           || download "https://ftp.gnu.org/gnu/mpc/mpc-$MPC_V.tar.gz" "mpc-$MPC_V.tar.gz"
     test -d "mpc-$MPC_V"                  || tar -xzf "mpc-$MPC_V.tar.gz"
     pushd "gcc-$GCC_V"
     ln -sf ../"mpc-$MPC_V" "mpc"
@@ -124,7 +125,7 @@ if [ "$MPC_V" != "" ]; then
 fi
 
 if [ "$MPFR_V" != "" ]; then
-    test -f "mpfr-$MPFR_V.tar.gz"         || download "https://ftp.gnu.org/gnu/mpfr/mpfr-$MPFR_V.tar.gz"
+    test -f "mpfr-$MPFR_V.tar.gz"         || download "https://ftp.gnu.org/gnu/mpfr/mpfr-$MPFR_V.tar.gz" "mpfr-$MPFR_V.tar.gz"
     test -d "mpfr-$MPFR_V"                || tar -xzf "mpfr-$MPFR_V.tar.gz"
     pushd "gcc-$GCC_V"
     ln -sf ../"mpfr-$MPFR_V" "mpfr"
@@ -132,7 +133,7 @@ if [ "$MPFR_V" != "" ]; then
 fi
 
 if [ "$MAKE_V" != "" ]; then
-    test -f "make-$MAKE_V.tar.gz"       || download "https://ftp.gnu.org/gnu/make/make-$MAKE_V.tar.gz"
+    test -f "make-$MAKE_V.tar.gz"       || download "https://ftp.gnu.org/gnu/make/make-$MAKE_V.tar.gz" "make-$MAKE_V.tar.gz"
     test -d "make-$MAKE_V"              || tar -xzf "make-$MAKE_V.tar.gz"
 fi
 
@@ -204,7 +205,7 @@ pushd gcc_compile_target
     --target="$N64_TARGET" \
     --with-arch=vr4300 \
     --with-tune=vr4300 \
-    --enable-languages=c,c++ \
+    --enable-languages=c,c++,rust,jit \
     --without-headers \
     --disable-libssp \
     --enable-multilib \
@@ -274,7 +275,7 @@ else
         --disable-werror \
         --with-arch=vr4300 \
         --with-tune=vr4300 \
-        --enable-languages=c,c++ \
+        --enable-languages=c,c++,rust,jit \
         --with-newlib \
         --enable-multilib \
         --with-gcc \
