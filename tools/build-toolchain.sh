@@ -36,7 +36,7 @@ GCC_CONFIGURE_ARGS=()
 
 # Dependency source libs (Versions)
 BINUTILS_V=2.43.1
-GCC_V=master-b4002fd1dc353de13e0f77f536199680f718ba9d
+GCC_V=master
 NEWLIB_V=4.4.0.20231231
 GMP_V=6.3.0 
 MPC_V=1.3.1 
@@ -101,7 +101,7 @@ cd "$BUILD_PATH"
 test -f "binutils-$BINUTILS_V.tar.gz" || download "https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_V.tar.gz" "binutils-$BINUTILS_V.tar.gz"
 test -d "binutils-$BINUTILS_V"        || tar -xzf "binutils-$BINUTILS_V.tar.gz"
 
-test -f "gcc-$GCC_V.tar.gz"           || download "https://github.com/rust-lang/gcc/archive/refs/tags/master-b4002fd1dc353de13e0f77f536199680f718ba9d.tar.gz" "gcc-$GCC_V.tar.gz"
+test -f "gcc-$GCC_V.tar.gz"           || download "https://github.com/rust-lang/gcc/archive/$GCC_V.tar.gz" "gcc-$GCC_V.tar.gz"
 test -d "gcc-$GCC_V"                  || tar -xzf "gcc-$GCC_V.tar.gz"
 
 test -f "newlib-$NEWLIB_V.tar.gz"     || download "https://sourceware.org/pub/newlib/newlib-$NEWLIB_V.tar.gz" "newlib-$NEWLIB_V.tar.gz"
