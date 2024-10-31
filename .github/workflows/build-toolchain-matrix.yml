@@ -38,11 +38,17 @@ jobs:
     steps:
       - name: Install native system build dependencies
         run: |
+          sudo apt-get install build-essential
+          sudo apt-get install libgmp3-dev
           sudo apt-get install libmpfr-dev
-          sudo apt-get install texinfo
           sudo apt-get install libmpc-dev
+          sudo apt-get install flex
+          sudo apt-get install bison
+          sudo apt-get install autogen
+          sudo apt-get install gcc-multilib
+          sudo apt-get install dejagnu
+          sudo apt-get install texinfo
           sudo apt-get install squashfs-tools
-          sudo apt-get install libc6-dev
           # If there are other dependencies, we should add them here and make sure the documentation is updated!
         continue-on-error: true
 
