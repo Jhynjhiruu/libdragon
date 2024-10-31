@@ -205,7 +205,7 @@ pushd gcc_compile_target
     --target="$N64_TARGET" \
     --with-arch=vr4300 \
     --with-tune=vr4300 \
-    --enable-languages=c,c++,jit \
+    --enable-languages=c,c++,rust,jit \
     --without-headers \
     --disable-libssp \
     --enable-multilib \
@@ -216,9 +216,9 @@ pushd gcc_compile_target
     --disable-nls \
     --disable-werror \
     --enable-host-shared
-make all-gcc -j "$JOBS"
+make all-gcc -j "$JOBS" MAKEINFO=true
 make install-gcc || sudo make install-gcc || su -c "make install-gcc"
-make all-target-libgcc -j "$JOBS"
+make all-target-libgcc -j "$JOBS" MAKEINFO=true
 make install-target-libgcc || sudo make install-target-libgcc || su -c "make install-target-libgcc"
 popd
 
@@ -276,7 +276,7 @@ else
         --disable-werror \
         --with-arch=vr4300 \
         --with-tune=vr4300 \
-        --enable-languages=c,c++,jit \
+        --enable-languages=c,c++,rust,jit \
         --with-newlib \
         --enable-multilib \
         --with-gcc \
@@ -285,7 +285,7 @@ else
         --disable-win32-registry \
         --disable-nls \
         --enable-host-shared
-    make all-target-libgcc -j "$JOBS"
+    make all-target-libgcc -j "$JOBS" MAKEINFO=true
     make install-target-libgcc || sudo make install-target-libgcc || su -c "make install-target-libgcc"
     popd
 
